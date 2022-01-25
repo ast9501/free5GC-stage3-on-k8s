@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smf
+  labels:
+    app: smf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smf
+  template:
+    metadata:
+      labels:
+        app: smf
+      annotations:
+        cni.projectcalico.org/ipAddrs: "[\"192.168.2.7\"]"
+    spec:
+      containers:
+        - name: smf
+          image: free5gc-build:v3.0.5
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash"]
+          args: ["-c", "./bin/smf"]
+          stdin: true
+          tty: true
+          volumeMounts:
+            - name: smf-config
+              mountPath: /root/free5gc/config/smfcfg.yaml
+              subPath: smfcfg.yaml
+      volumes:
+        - name: smf-config
+          configMap:
+            name: smf

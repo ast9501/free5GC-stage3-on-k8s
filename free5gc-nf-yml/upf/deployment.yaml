@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upf
+  labels:
+    app: upf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upf
+  template:
+    metadata:
+      labels:
+        app: upf
+      annotations:
+        cni.projectcalico.org/ipAddrs: "[\"192.168.2.10\"]"
+    spec:
+      containers:
+        - name: upf
+          securityContext:
+            privileged: true
+          image: free5gc-build:v3.0.5
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash"]
+          args: ["-c", "cd NFs/upf/build && sysctl -w net.ipv4.ip_forward=1 && iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE && ./bin/free5gc-upfd -f ../config/upfcfg.yaml"]
+          stdin: true
+          tty: true
+          volumeMounts:
+            - name: upf-config
+              mountPath: /root/free5gc/NFs/upf/config/upfcfg.yaml
+              subPath: upfcfg.yaml
+      volumes:
+        - name: upf-config
+          configMap:
+            name: upf

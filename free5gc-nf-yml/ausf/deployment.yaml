@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ausf
+  labels:
+    app: ausf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ausf
+  template:
+    metadata:
+      labels:
+        app: ausf
+      annotations:
+        cni.projectcalico.org/ipAddrs: "[\"192.168.2.3\"]"
+    spec:
+      containers:
+        - name: ausf
+          image: free5gc-build:v3.0.5
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash"]
+          args: ["-c", "./bin/ausf"]
+          stdin: true
+          tty: true
+          volumeMounts:
+            - name: ausf-config
+              mountPath: /root/free5gc/config/ausfcfg.yaml
+              subPath: ausfcfg.yaml
+      volumes:
+        - name: ausf-config
+          configMap:
+            name: ausf
