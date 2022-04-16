@@ -18,10 +18,10 @@ spec:
     spec:
       containers:
         - name: udr
-          image: free5gc-build:v3.0.5
+          image: free5gc-build:v3.1.0
           imagePullPolicy: IfNotPresent
           command: ["/bin/bash"]
-          args: ["-c", "./bin/udr"]
+          args: ["-c", "./bin/udr -c ./config/udrcfg.yaml"]
           stdin: true
           tty: true
           volumeMounts:

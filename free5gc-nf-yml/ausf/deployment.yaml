@@ -18,10 +18,10 @@ spec:
     spec:
       containers:
         - name: ausf
-          image: free5gc-build:v3.0.5
+          image: free5gc-build:v3.1.0
           imagePullPolicy: IfNotPresent
           command: ["/bin/bash"]
-          args: ["-c", "./bin/ausf"]
+          args: ["-c", "./bin/ausf -c ./config/ausfcfg.yaml"]
           stdin: true
           tty: true
           volumeMounts:

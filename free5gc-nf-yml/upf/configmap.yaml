@@ -15,6 +15,10 @@ data:
       debugLevel: info
       ReportCaller: false
 
+      # packetBufferHoldTime should be longer than Paging retry-out time of AMF.
+      # unit: seconds
+      packetBufferHoldTime: 30
+
       # The IP list of the N4 interface on this UPF (Can't set to 0.0.0.0)
       pfcp:
         - addr: 192.168.2.10
@@ -31,6 +35,6 @@ data:
       # The DNN list supported by UPF
       dnn_list:
         - dnn: internet # Data Network Name
-          cidr: 60.60.0.0/24 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
+          cidr: 10.60.0.0/24 # Classless Inter-Domain Routing for assigned IPv4 pool of UE
           # [optional] dnn_list[*].natifname
           # natifname: eth0

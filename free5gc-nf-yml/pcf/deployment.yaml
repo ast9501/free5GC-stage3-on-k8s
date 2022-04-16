@@ -18,10 +18,10 @@ spec:
     spec:
       containers:
         - name: pcf
-          image: free5gc-build:v3.0.5
+          image: free5gc-build:v3.1.0
           imagePullPolicy: IfNotPresent
           command: ["/bin/bash"]
-          args: ["-c", "./bin/pcf"]
+          args: ["-c", "./bin/pcf -c ./config/pcfcfg.yaml"]
           stdin: true
           tty: true
           volumeMounts:

@@ -5,7 +5,7 @@ metadata:
 data:
   nssfcfg.yaml: |
     info:
-      version: 1.0.0
+      version: 1.0.1
       description: NSSF initial local configuration
 
     configuration:
@@ -15,6 +15,9 @@ data:
         registerIPv4: 192.168.2.5 # IP used to register to NRF
         bindingIPv4: 192.168.2.5  # IP used to bind the service
         port: 8000 # Port used to bind the service
+        tls: # the local path of TLS key
+          pem: config/TLS/nssf.pem # NSSF TLS Certificate
+          key: config/TLS/nssf.key # NSSF TLS Private key
       serviceNameList: # the SBI services provided by this SMF, refer to TS 29.531
         - nnssf-nsselection # Nnssf_NSSelection service
         - nnssf-nssaiavailability # Nnssf_NSSAIAvailability service
@@ -101,7 +104,7 @@ data:
             - 0e8831c3-6286-4689-ab27-1e2161e15cb1
             - a1fba9ba-2e39-4e22-9c74-f749da571d0d
           # URI of the NRF used to determine the list of candidate AMF(s) from the AMF Set
-          nrfAmfSet: http://127.0.0.10:8000/nnrf-nfm/v1/nf-instances
+          nrfAmfSet: http://192.168.2.4:8000/nnrf-nfm/v1/nf-instances
           # the Nssai availability data information per TA supported by the AMF
           supportedNssaiAvailabilityData:
             - tai: # Tracking Area Identifier
@@ -350,8 +353,8 @@ data:
                 sd: 000003 # Slice Differentiator (3 bytes hex string, range: 000000~FFFFFF)
 
     # the kind of log output
-      # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
-      # ReportCaller: enable the caller report or not, value: true or false
+    # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+    # ReportCaller: enable the caller report or not, value: true or false
     logger:
       NSSF:
         debugLevel: info

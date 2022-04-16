@@ -18,10 +18,10 @@ spec:
     spec:
       containers:
         - name: udm
-          image: free5gc-build:v3.0.5
+          image: free5gc-build:v3.1.0
           imagePullPolicy: IfNotPresent
           command: ["/bin/bash"]
-          args: ["-c", "./bin/udm"]
+          args: ["-c", "./bin/udm -c ./config/udmcfg.yaml"]
           stdin: true
           tty: true
           volumeMounts:

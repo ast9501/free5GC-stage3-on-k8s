@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
         - name: webui
-          image: free5gc-build:v3.0.5
+          image: free5gc-build:v3.1.0
           imagePullPolicy: IfNotPresent
           command: ["/bin/bash"]
-          args: ["-c", "./webconsole/bin/webconsole"]
+          args: ["-c", "cd webconsole && ./bin/webconsole -c ../config/webuicfg.yaml"]
           ports:
             - name: webui
               containerPort: 5000

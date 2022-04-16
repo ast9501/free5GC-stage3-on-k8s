@@ -30,13 +30,13 @@ RUN apt-get -y install nodejs yarn
 
 # Build all NFs at once
 WORKDIR /root
-RUN git clone --recursive -b v3.0.5 -j `nproc` https://github.com/free5gc/free5gc.git
+RUN git clone --recursive -b v3.1.0 -j `nproc` https://github.com/free5gc/free5gc.git
 WORKDIR /root/free5gc
 RUN make
 
 # Build WebConsole
 WORKDIR /root/free5gc/webconsole
-RUN git checkout v1.0.1
+RUN git checkout v1.1.0
 WORKDIR /root/free5gc
 RUN make webconsole
 
