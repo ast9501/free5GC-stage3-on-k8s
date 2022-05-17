@@ -1,4 +1,5 @@
-FROM ubuntu:18.04
+# BUILD STAGE
+FROM ubuntu:18.04 AS builder
 
 RUN apt-get -y update
 RUN apt-get -y install wget git curl
@@ -40,3 +41,18 @@ RUN git checkout v1.0.1
 WORKDIR /root/free5gc
 RUN make webconsole
 
+
+# FINAL STAGE
+FROM ubuntu:18.04
+COPY --from=builder /root/free5gc/bin /root/free5gc/bin
+COPY --from=builder /root/free5gc/config /root/free5gc/config
+COPY --from=builder /root/free5gc/webconsole/bin /root/free5gc/webconsole/bin
+COPY --from=builder /root/free5gc/webconsole /root/free5gc/webconsole
+COPY --from=builder /root/free5gc/NFs/upf/build /root/free5gc/NFs/upf/build
+
+# install network toolkit, require library
+RUN apt update && \
+    apt-get -y install iputils-ping tcpdump iptables net-tools && \
+    apt-get -y install libtool libmnl-dev libyaml-dev && \
+    rm -rf /var/lib/apt/lists/*
+WORKDIR /root/free5gc
