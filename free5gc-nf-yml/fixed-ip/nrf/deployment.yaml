@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nrf
+  labels:
+    app: nrf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nrf
+  template:
+    metadata:
+      labels:
+        app: nrf
+      annotations:
+        cni.projectcalico.org/ipAddrs: "[\"192.168.2.4\"]"
+    spec:
+      containers:
+        - name: nrf
+          image: alan0415/free5gc-build:v3.0.5
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash"]
+          args: ["-c", "./bin/nrf"]
+          stdin: true
+          tty: true
+          volumeMounts:
+            - name: nrf-config
+              mountPath: /root/free5gc/config/nrfcfg.yaml
+              subPath: nrfcfg.yaml
+      initContainers:
+      - name: wait-webui
+        image: busybox
+        command: ['sh', '-c', 'until nslookup webui; do echo waiting for webui; sleep 2; done;']
+      volumes:
+        - name: nrf-config
+          configMap:
+            name: nrf
