@@ -74,7 +74,7 @@ spec:
         securityContext:
           privileged: true
         command: ["/bin/sh"]
-        args: ["-c", "sleep 5s && /setup-uptun.sh eth0 && ./bin/free5gc-upfd"]
+        args: ["-c", "sleep 8s && /setup-uptun.sh eth0 && ./bin/free5gc-upfd"]
         volumeMounts:
         - mountPath: /dev/net/tun
           name: tun-volume

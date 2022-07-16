@@ -78,7 +78,7 @@ spec:
       - name: myapp-container
         image: free5gmano/free5gc-control-plane:stage3.0.5-amd64
         command: ["/bin/sh"]
-        args: ["-c", "sleep 5s && ./bin/nrf"]
+        args: ["-c", "sleep 10s && ./bin/nrf"]
         env:
         - name: GIN_MODE
           value: debug # debug | release
